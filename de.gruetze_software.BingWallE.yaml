@@ -12,14 +12,12 @@ build-options:
 command: bingwalle
 
 finish-args:
-  - --device=dri
-  # TODO: Replace this with wayland and fallback-x11 once Wayland support
-  #       becomes available:
-  #       https://github.com/AvaloniaUI/Avalonia/pull/8003
-  - --socket=x11
+  - --socket=wayland
+  - --socket=fallback-x11
   - --share=ipc
   - --share=network
   - --env=DOTNET_ROOT=/app/lib/dotnet
+  - --device=dri
 
 modules:
   - name: dotnet
@@ -32,16 +30,8 @@ modules:
     sources:
       - type: git
         url: https://github.com/gruetze-software/BingWallE.git
-        commit: 07361c28e514c91627cb4a57615ed5b0a1903a06
-        tag: v1.4.1
+        commit: 8bb7f0d65ca140afffad6d5db8f2af2ec297316e
+        tag: v1.5.1
       - ./nuget-sources.json
     build-commands:
-      - dotnet publish BingWallE/BingWallE.csproj -c Release --no-self-contained --source ./nuget-sources
-      - mkdir -p ${FLATPAK_DEST}/bin
-      - cp -r BingWallE/bin/Release/net10.0/publish/* ${FLATPAK_DEST}/bin
-      - install -Dm644 branding/de.gruetze_software.BingWallE.desktop ${FLATPAK_DEST}/share/applications/de.gruetze_software.BingWallE.desktop
-      - install -Dm644 BingWallE/Assets/bingwalle.png ${FLATPAK_DEST}/share/icons/hicolor/256x256/apps/de.gruetze_software.BingWallE.png
-      - install -Dm644 branding/de.gruetze_software.BingWallE.metainfo.xml ${FLATPAK_DEST}/share/metainfo/de.gruetze_software.BingWallE.metainfo.xml
-      - install -Dm644 LICENSE ${FLATPAK_DEST}/share/licenses/de.gruetze_software.BingWallE/LICENSE
-      - mkdir -p ${FLATPAK_DEST}/share/licenses/de.gruetze_software.BingWallE/third-party
-      - cp -r licenses/* ${FLATPAK_DEST}/share/licenses/de.gruetze_software.BingWallE/third-party
+      - bash scripts/install-flatpak.sh
