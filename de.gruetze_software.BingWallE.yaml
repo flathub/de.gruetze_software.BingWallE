@@ -30,7 +30,7 @@ modules:
     sources:
       - type: git
         url: https://github.com/gruetze-software/BingWallE.git
-        commit: 58a5bc7af9c8592e7eceec5512e032128c2b3942
+        commit: bf6e6e1558397eb761affc6e50dd2748d2963b7a
       - ./nuget-sources.json
     build-commands:
       - bash scripts/install-flatpak.sh
